@@ -1,0 +1,819 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Próba odata service doksi",
+    "version": "1.20201111.1"
+  },
+  "servers": [
+    {
+      "url": "http://217.144.51.217:5111/odata/"
+    }
+  ],
+  "paths": {
+    "/User/{id}": {
+      "get": {
+        "description": "Egy, az adott id-hez tartozó, User típusú rekord lekérdezése.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord is-ével lekérdezi a konkrét rekordot",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A lekérdezés sikeres volt, a rekord adatait adja vissza",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Update-el 1 adott rekordot az id alapján",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord id-hez tartozó rekordot fogja frissíteni",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWithoutID"
+              },
+              "example": {
+                "Guid": "nincs példa",
+                "CreatedAt": "2021-03-02T11:24:13.3898728+01:00",
+                "UpdatedAt": "2021-03-02T11:24:13.3952807+01:00",
+                "Name": "nincs példa",
+                "Email": "nincs példa",
+                "Password": "nincs példa",
+                "OAuthToken": "nincs példa",
+                "Language": "nincs példa",
+                "PhoneNumber": "nincs példa",
+                "UserName": "nincs példa"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Az adatok frissítése sikeres volt, a rekord a db-ben is frissült"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Töröl 1, adott rekordot az id alapján és a rekordhoz tartozó összes kapcsolt rekordot \nKapcsolt rekordok: ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord id-ével törli a konkrét rekordot és a hozzá kapcsolódókat is. \nKapcsolt rekordok: ",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A törlés sikeres volt, a rekord a db-ből is törlődött"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/User": {
+      "get": {
+        "description": "Usertípusú rekordok lekérdezése",
+        "responses": {
+          "200": {
+            "description": "A lekérdezés sikeres volt, a rekordok listáját adja vissza",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Új rekord létrehozása",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWithoutID"
+              },
+              "example": {
+                "Guid": "nincs példa",
+                "CreatedAt": "2021-03-02T11:24:13.3957538+01:00",
+                "UpdatedAt": "2021-03-02T11:24:13.3957573+01:00",
+                "Name": "nincs példa",
+                "Email": "nincs példa",
+                "Password": "nincs példa",
+                "OAuthToken": "nincs példa",
+                "Language": "nincs példa",
+                "PhoneNumber": "nincs példa",
+                "UserName": "nincs példa"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "A felvitel sikeres volt, a rekord a db-be is bekerült"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/UserToken/{id}": {
+      "get": {
+        "description": "Egy, az adott id-hez tartozó, UserToken típusú rekord lekérdezése.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord is-ével lekérdezi a konkrét rekordot",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A lekérdezés sikeres volt, a rekord adatait adja vissza",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Update-el 1 adott rekordot az id alapján",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord id-hez tartozó rekordot fogja frissíteni",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserTokenWithoutID"
+              },
+              "example": {
+                "UserGuid": "nincs példa",
+                "fbToken": "nincs példa"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Az adatok frissítése sikeres volt, a rekord a db-ben is frissült"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Töröl 1, adott rekordot az id alapján és a rekordhoz tartozó összes kapcsolt rekordot \nKapcsolt rekordok: ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord id-ével törli a konkrét rekordot és a hozzá kapcsolódókat is. \nKapcsolt rekordok: ",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A törlés sikeres volt, a rekord a db-ből is törlődött"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/UserToken": {
+      "get": {
+        "description": "UserTokentípusú rekordok lekérdezése",
+        "responses": {
+          "200": {
+            "description": "A lekérdezés sikeres volt, a rekordok listáját adja vissza",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserToken"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Új rekord létrehozása",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserTokenWithoutID"
+              },
+              "example": {
+                "UserGuid": "nincs példa",
+                "fbToken": "nincs példa"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "A felvitel sikeres volt, a rekord a db-be is bekerült"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AuthenticationRequest/{id}": {
+      "get": {
+        "description": "Egy, az adott id-hez tartozó, AuthenticationRequest típusú rekord lekérdezése.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord is-ével lekérdezi a konkrét rekordot",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A lekérdezés sikeres volt, a rekord adatait adja vissza",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Update-el 1 adott rekordot az id alapján",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord id-hez tartozó rekordot fogja frissíteni",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationRequestWithoutID"
+              },
+              "example": {
+                "Guid": "nincs példa",
+                "CheckData": "nincs példa"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Az adatok frissítése sikeres volt, a rekord a db-ben is frissült"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Töröl 1, adott rekordot az id alapján és a rekordhoz tartozó összes kapcsolt rekordot \nKapcsolt rekordok: ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A rekord id-ével törli a konkrét rekordot és a hozzá kapcsolódókat is. \nKapcsolt rekordok: ",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A törlés sikeres volt, a rekord a db-ből is törlődött"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AuthenticationRequest": {
+      "get": {
+        "description": "AuthenticationRequesttípusú rekordok lekérdezése",
+        "responses": {
+          "200": {
+            "description": "A lekérdezés sikeres volt, a rekordok listáját adja vissza",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuthenticationRequest"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Új rekord létrehozása",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationRequestWithoutID"
+              },
+              "example": {
+                "Guid": "nincs példa",
+                "CheckData": "nincs példa"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "A felvitel sikeres volt, a rekord a db-be is bekerült"
+          },
+          "400": {
+            "description": "A kérés hibára futott, a hibaüzenet bővebben tájékoztat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Hiba üzenet",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "description": "A hibáról informáló üzenet"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "nincs leírás",
+            "format": "int32"
+          },
+          "Guid": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "CreatedAt": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": "date-time"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": "date-time"
+          },
+          "Name": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "Email": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "Password": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "OAuthToken": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "Language": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "PhoneNumber": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "UserName": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          }
+        }
+      },
+      "UserWithoutID": {
+        "properties": {
+          "Guid": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "CreatedAt": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": "date-time"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": "date-time"
+          },
+          "Name": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "Email": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "Password": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "OAuthToken": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "Language": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "PhoneNumber": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "UserName": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          }
+        }
+      },
+      "UserToken": {
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "nincs leírás",
+            "format": "int32"
+          },
+          "UserGuid": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "fbToken": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          }
+        }
+      },
+      "UserTokenWithoutID": {
+        "properties": {
+          "UserGuid": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "fbToken": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          }
+        }
+      },
+      "AuthenticationRequest": {
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "nincs leírás",
+            "format": "int32"
+          },
+          "Guid": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "CheckData": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          }
+        }
+      },
+      "AuthenticationRequestWithoutID": {
+        "properties": {
+          "Guid": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          },
+          "CheckData": {
+            "type": "string",
+            "description": "nincs leírás",
+            "format": ""
+          }
+        }
+      }
+    }
+  }
+}
